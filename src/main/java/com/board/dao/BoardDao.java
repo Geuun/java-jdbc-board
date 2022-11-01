@@ -97,7 +97,7 @@ public class BoardDao {
     }
 
     public List<BoardVo> selectAll() throws SQLException {
-        List<BoardVo> postList = new ArrayList<BoardVo>();
+        List<BoardVo> postList = new ArrayList<>();
         Map<String, String> env = System.getenv();
         Connection connection = DriverManager.getConnection(env.get("DB_HOST"),
                 env.get("DB_USER"),

@@ -34,9 +34,11 @@ class BoardDaoTest {
         boardDao.insert(post2);
         boardDao.insert(post3);
 
-        //Todo: id를 지정 안했을 때 getter를 사용하지 못하는 문제
+        /**
+         * Todo: id를 지정 안했을 때 getter를 사용하지 못하는 문제 해결해보기
+         * -> 우선 id 값 없이 다 불러올 수 있는 selectAll 을 구현해보기
+         */
         BoardVo post = boardDao.selectByNo(post1.getNo(post1));
-        assertEquals();
 
 
     }

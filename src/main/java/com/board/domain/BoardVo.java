@@ -1,23 +1,32 @@
 package com.board.domain;
 
 public class BoardVo {
-    private String no;
+    private int no;
     private String title;
     private String content;
     private String author;
 
-    public BoardVo(String  no, String title, String content, String author) {
+    public BoardVo() {
+    }
+
+    public BoardVo(String title, String content, String author) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+    }
+
+    public BoardVo(int  no, String title, String content, String author) {
         this.no = no;
         this.title = title;
         this.content = content;
         this.author = author;
     }
 
-    public String  getNo() {
+    public int getNo() {
         return no;
     }
 
-    public void setNo(String  no) {
+    public void setNo(int no) {
         this.no = no;
     }
 

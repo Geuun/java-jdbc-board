@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.List;
 
 class BoardDaoTest {
 
@@ -34,10 +34,23 @@ class BoardDaoTest {
         boardDao.insert(post2);
         boardDao.insert(post3);
 
-        //Todo: id를 지정 안했을 때 getter를 사용하지 못하는 문제
-        BoardVo post = boardDao.selectByNo(post1.getNo(post1));
-        assertEquals();
+        /**
+         * Todo: id를 지정 안했을 때 getter를 사용하지 못하는 문제 해결해보기
+         * -> 우선 id 값 없이 다 불러올 수 있는 selectAll 을 구현해보기
+         */
+//        BoardVo post = boardDao.selectByNo(post1.getNo(post1));
+    }
 
+    @Test
+    @DisplayName("selectAll 메서드 Test")
+    void selectAllTest() throws SQLException {
+
+        BoardDao boardDao = new BoardDao();
+        List<BoardVo> postList = boardDao.selectAll();
+        System.out.println(postList.getClass().getName()); // arraylist 라고나옴...
+        System.out.println(postList);
+
+//        [com.board.domain.BoardVo@41200e0c, com.board.domain.BoardVo@40f33492, com.board.domain.BoardVo@4fbdc0f0]
 
     }
 }

@@ -4,6 +4,8 @@ import com.board.domain.BoardVo;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class BoardDao {
@@ -92,6 +94,55 @@ public class BoardDao {
             }
         }
         return boardVo;
+    }
+
+    public List<BoardVo> selectAll() throws SQLException {
+        List<BoardVo> postList = new ArrayList<>();
+        Map<String, String> env = System.getenv();
+        Connection connection = DriverManager.getConnection(env.get("DB_HOST"),
+                env.get("DB_USER"),
+                env.get("DB_PASSWORD"));
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = connection.prepareStatement("SELECT * FROM `board`.`posts` ORDER BY no DESC;");
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int no = rs.getInt("no");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String author = rs.getString("author");
+                BoardVo post = new BoardVo(no, title, content, author);
+                postList.add(post);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return postList;
     }
 
 

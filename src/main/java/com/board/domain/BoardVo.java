@@ -6,6 +6,9 @@ public class BoardVo {
     private String content;
     private String author;
 
+    public BoardVo() {
+    }
+
     public BoardVo(String title, String content, String author) {
         this.title = title;
         this.content = content;

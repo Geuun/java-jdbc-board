@@ -103,15 +103,44 @@ public class BoardDao {
                 env.get("DB_USER"),
                 env.get("DB_PASSWORD"));
 
-        PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM `board`.`posts` ORDER BY no DESC;");
-        ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = connection.prepareStatement("SELECT * FROM `board`.`posts` ORDER BY no DESC;");
+            rs = pstmt.executeQuery();
 
-        while (rs.next()) {
-            int no = rs.getInt("no");
-            String title = rs.getString("title");
-            String content = rs.getString("content");
-            BoardVo post = new BoardVo(no, title, content);
-            postList.add(post);
+            while (rs.next()) {
+                int no = rs.getInt("no");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String author = rs.getString("author");
+                BoardVo post = new BoardVo(no, title, content, author);
+                postList.add(post);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         return postList;
     }

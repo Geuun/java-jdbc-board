@@ -31,8 +31,8 @@
 
 - Exception 구문을 추가하였을 때 왜 객체를 null로 생성하는 것인지 (물론 intellij로 자동생성함ㅋㅋ...)
 - Exception 구문에서 ResultSet, PreparedStatement, Connection가 Null이라면 RuntimeException을 뱉게 설계하는데 null을 가르킨다는게 어떤 의미인지
-- id를 지정 안했을 때 getter를 사용하지 못하는 문제
-  - 우선 id를 직접 넣어줘서 마저 개발
+- 당연하게도 id를 지정 안했을 때 getter를 사용하지 못하는 문제 발생
+  - 우선 id를 직접 넣어줘서 마저 개발하려다 selectAll 을 구현해보기로함!
 
 
 </div>

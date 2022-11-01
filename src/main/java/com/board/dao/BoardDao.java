@@ -16,21 +16,35 @@ public class BoardDao {
      */
     public void insert(BoardVo boardVo) throws SQLException {
         Map<String, String> env = System.getenv();
-        Connection c = DriverManager.getConnection(env.get("DB_HOST"),
+        Connection connection = DriverManager.getConnection(env.get("DB_HOST"),
                 env.get("DB_USER"),
                 env.get("DB_PASSWORD"));
 
-        PreparedStatement pstmt = c.prepareStatement("INSERT INTO `board`.posts(title, content, author) VALUES (?, ?, ?)");
-
-        pstmt.setString(1, boardVo.getTitle());
-        pstmt.setString(2, boardVo.getContent());
-        pstmt.setString(3, boardVo.getAuthor());
-
-        pstmt.executeUpdate();
-
-
-        pstmt.close();
-        c.close();
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = connection.prepareStatement("INSERT INTO `board`.posts(title, content, author) VALUES (?, ?, ?)");
+            pstmt.setString(1, boardVo.getTitle());
+            pstmt.setString(2, boardVo.getContent());
+            pstmt.setString(3, boardVo.getAuthor());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
